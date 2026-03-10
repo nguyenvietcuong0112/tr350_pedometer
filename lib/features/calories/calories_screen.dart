@@ -38,7 +38,7 @@ class CaloriesScreen extends ConsumerWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 20.sp,
+            fontSize: 20.0.sp,
           ),
         ),
       ),
@@ -46,10 +46,10 @@ class CaloriesScreen extends ConsumerWidget {
         children: [
           // Date Navigator
           Container(
-            padding: EdgeInsets.symmetric(vertical: 12.h),
+            padding: EdgeInsets.symmetric(vertical: 12.0.h),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: const Color(0xFFF0F0F0), width: 1.h),
+                bottom: BorderSide(color: const Color(0xFFF0F0F0), width: 1.0.h),
               ),
             ),
             child: Row(
@@ -57,13 +57,13 @@ class CaloriesScreen extends ConsumerWidget {
               children: [
                 _DateNavButton(icon: Icons.chevron_left_rounded, onTap: () {}),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.w),
+                  padding: EdgeInsets.symmetric(horizontal: 40.0.w),
                   child: Text(
                     'Today',
                     style: TextStyle(
                       color: AppColors.activityBlue,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
+                      fontSize: 16.0.sp,
                     ),
                   ),
                 ),
@@ -74,7 +74,7 @@ class CaloriesScreen extends ConsumerWidget {
           
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(20.w),
+              padding: EdgeInsets.all(20.0.w),
               children: [
                 // Summary Cards Row
                 Row(
@@ -90,7 +90,7 @@ class CaloriesScreen extends ConsumerWidget {
                         backgroundColor: const Color(0xFFF0F7FF),
                       ),
                     ),
-                    SizedBox(width: 16.w),
+                    SizedBox(width: 16.0.w),
                     Expanded(
                       child: _SummaryCard(
                         title: 'BURNED',
@@ -104,14 +104,14 @@ class CaloriesScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 20.0.h),
                 
                 // Surplus/Deficit Dark Card
                 _NetCalorieCard(
                   netValue: net.toInt(),
                   isDeficit: isDeficit,
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 24.0.h),
                 
                 // Walking Burned Info Card
                 _InfoCard(
@@ -138,12 +138,12 @@ class _DateNavButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(4.w),
+        padding: EdgeInsets.all(4.0.w),
         decoration: BoxDecoration(
           color: AppColors.activityBlue,
-          borderRadius: BorderRadius.circular(4.w),
+          borderRadius: BorderRadius.circular(4.0.w),
         ),
-        child: Icon(icon, color: Colors.white, size: 24.w),
+        child: Icon(icon, color: Colors.white, size: 24.0.w),
       ),
     );
   }
@@ -171,10 +171,10 @@ class _SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(20.0.w),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(24.w),
+        borderRadius: BorderRadius.circular(24.0.w),
         border: Border.all(color: AppColors.activityBlue.withValues(alpha: 0.05)),
       ),
       child: Column(
@@ -186,13 +186,13 @@ class _SummaryCard extends StatelessWidget {
                 title,
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12.sp,
+                  fontSize: 12.0.sp,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.w,
+                  letterSpacing: 1.0.w,
                 ),
               ),
-              SizedBox(width: 4.w),
-              Icon(icon, size: 16.w, color: Colors.grey),
+              SizedBox(width: 4.0.w),
+              Icon(icon, size: 16.0.w, color: Colors.grey),
             ],
           ),
           const SizedBox(height: 16),
@@ -203,30 +203,30 @@ class _SummaryCard extends StatelessWidget {
                 value,
                 style: TextStyle(
                   color: valueColor,
-                  fontSize: 28.sp,
+                  fontSize: 28.0.sp,
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              SizedBox(width: 4.w),
+              SizedBox(width: 4.0.w),
               Padding(
-                padding: EdgeInsets.only(bottom: 4.h),
+                padding: EdgeInsets.only(bottom: 4.0.h),
                 child: Text(
                   'kcal',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 14.sp,
+                    fontSize: 14.0.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 8.0.h),
           Text(
             subtext,
             style: TextStyle(
               color: subtextColor,
-              fontSize: 12.sp,
+              fontSize: 12.0.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -248,10 +248,10 @@ class _NetCalorieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(24.0.w),
       decoration: BoxDecoration(
         color: const Color(0xFF0D1221), // Navy dark background
-        borderRadius: BorderRadius.circular(24.w),
+        borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,12 +263,12 @@ class _NetCalorieCard extends StatelessWidget {
                 'SURPLUS / DEFICIT',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12.sp,
+                  fontSize: 12.0.sp,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.w,
+                  letterSpacing: 1.0.w,
                 ),
               ),
-              SizedBox(height: 8.h),
+              SizedBox(height: 8.0.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -276,18 +276,18 @@ class _NetCalorieCard extends StatelessWidget {
                     '${netValue > 0 ? '+' : ''}$netValue',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 32.sp,
+                      fontSize: 32.0.sp,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: 8.0.w),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 6.h),
+                    padding: EdgeInsets.only(bottom: 6.0.h),
                     child: Text(
                       'kcal',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16.sp,
+                        fontSize: 16.0.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -297,17 +297,17 @@ class _NetCalorieCard extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 8.0.h),
             decoration: BoxDecoration(
               color: const Color(0xFF1B2E2A), // Success dark background
-              borderRadius: BorderRadius.circular(20.w),
+              borderRadius: BorderRadius.circular(20.0.w),
             ),
             child: Text(
               isDeficit ? 'In Deficit' : 'In Surplus',
               style: TextStyle(
                 color: const Color(0xFF2ECC71), // Success green
                 fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
+                fontSize: 14.0.sp,
               ),
             ),
           ),
@@ -326,28 +326,28 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(20.0.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF5F6FA),
-        borderRadius: BorderRadius.circular(24.w),
+        borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(12.0.w),
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: AppColors.activityOrange, size: 24.w),
+            child: Icon(icon, color: AppColors.activityOrange, size: 24.0.w),
           ),
-          SizedBox(width: 20.w),
+          SizedBox(width: 20.0.w),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 color: const Color(0xFF7F8C8D),
-                fontSize: 13.sp,
+                fontSize: 13.0.sp,
                 fontWeight: FontWeight.bold,
                 height: 1.4.h,
               ),

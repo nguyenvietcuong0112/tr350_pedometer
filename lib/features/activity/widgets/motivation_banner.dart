@@ -17,27 +17,27 @@ class MotivationBanner extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
     return Padding(
-      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 8.h),
+      padding: EdgeInsets.fromLTRB(20.0.w, 16.0.h, 20.0.w, 8.0.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Medal Icon (using Emoji/Icon for simplicity, could be Image)
           Container(
-            padding: EdgeInsets.all(8.w),
+            padding: EdgeInsets.all(8.0.w),
             decoration: BoxDecoration(
               color: AppColors.accentOrange.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Text('🥇', style: TextStyle(fontSize: 24.sp)),
+            child: Text('🥇', style: TextStyle(fontSize: 24.0.sp)),
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 12.0.w),
           Expanded(
             child: RichText(
               text: TextSpan(
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
                       height: 1.4,
-                      fontSize: 14.sp,
+                      fontSize: 14.0.sp,
                     ),
                 children: [
                   const TextSpan(text: 'You have '),
@@ -46,7 +46,7 @@ class MotivationBanner extends StatelessWidget {
                     style: TextStyle(
                       color: AppColors.accentBlue,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
+                      fontSize: 14.0.sp,
                     ),
                   ),
                   const TextSpan(text: ' calories left to reach your '),
@@ -54,7 +54,7 @@ class MotivationBanner extends StatelessWidget {
                     text: '$goalCalories',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
+                      fontSize: 14.0.sp,
                     ),
                   ),
                   const TextSpan(text: ' calorie goal for today, keep going!'),

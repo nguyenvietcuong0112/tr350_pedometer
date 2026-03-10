@@ -14,18 +14,18 @@ class ActivityLogTile extends StatelessWidget {
     final color = _getColor(type);
     
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
+      padding: EdgeInsets.symmetric(vertical: 12.0.h, horizontal: 8.0.w),
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(10.w),
+            padding: EdgeInsets.all(10.0.w),
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: Colors.white, size: 24.w),
+            child: Icon(icon, color: Colors.white, size: 24.0.w),
           ),
-          SizedBox(width: 16.w),
+          SizedBox(width: 16.0.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +34,7 @@ class ActivityLogTile extends StatelessWidget {
                   _capitalize(type.name),
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
-                    fontSize: 16.sp,
+                    fontSize: 16.0.sp,
                     color: Colors.black,
                   ),
                 ),
@@ -42,7 +42,7 @@ class ActivityLogTile extends StatelessWidget {
                   _formatTime(activity.startTime),
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 13.sp,
+                    fontSize: 13.0.sp,
                   ),
                 ),
               ],
@@ -55,7 +55,7 @@ class ActivityLogTile extends StatelessWidget {
                 '${activity.calories.toInt()}',
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
-                  fontSize: 15.sp,
+                  fontSize: 15.0.sp,
                   color: Colors.black,
                 ),
               ),
@@ -63,12 +63,12 @@ class ActivityLogTile extends StatelessWidget {
                 'Kcal',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 11.sp,
+                  fontSize: 11.0.sp,
                 ),
               ),
             ],
           ),
-          SizedBox(width: 24.w),
+          SizedBox(width: 24.0.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -76,7 +76,7 @@ class ActivityLogTile extends StatelessWidget {
                 activity.distance.toStringAsFixed(1).replaceAll('.', ','),
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
-                  fontSize: 15.sp,
+                  fontSize: 15.0.sp,
                   color: Colors.black,
                 ),
               ),
@@ -84,7 +84,7 @@ class ActivityLogTile extends StatelessWidget {
                 'km',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 11.sp,
+                  fontSize: 11.0.sp,
                 ),
               ),
             ],

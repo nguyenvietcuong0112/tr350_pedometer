@@ -73,7 +73,7 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.close_rounded, color: AppColors.textPrimaryLight, size: 24.w),
+          icon: Icon(Icons.close_rounded, color: AppColors.textPrimaryLight, size: 24.0.w),
           onPressed: () => _handleStop(context),
         ),
         title: Text(
@@ -81,7 +81,7 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
           style: TextStyle(
             color: AppColors.textPrimaryLight,
             fontWeight: FontWeight.w900,
-            fontSize: 20.sp,
+            fontSize: 20.0.sp,
           ),
         ),
         centerTitle: true,
@@ -104,8 +104,8 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
           
           // Map Type Toggle Button
           Positioned(
-            top: 20.h,
-            right: 20.w,
+            top: 20.0.h,
+            right: 20.0.w,
             child: FloatingActionButton.small(
               onPressed: _toggleMapType,
               backgroundColor: Colors.white,
@@ -117,15 +117,15 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.fromLTRB(20.w, 24.h, 20.w, 30.h),
+              padding: EdgeInsets.fromLTRB(20.0.w, 24.0.h, 20.0.w, 30.0.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.w)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0.w)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 20.w,
-                    offset: Offset(0, -5.h),
+                    blurRadius: 20.0.w,
+                    offset: Offset(0, -5.0.h),
                   ),
                 ],
               ),
@@ -138,17 +138,17 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
                     style: Theme.of(context).textTheme.displayMedium?.copyWith(
                           fontWeight: FontWeight.w900,
                           color: AppColors.textPrimaryLight,
-                          fontSize: 45.sp, // Explicit size for responsiveness
+                          fontSize: 45.0.sp, // Explicit size for responsiveness
                         ),
                   ),
                   Text(
                     'Km',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey[600],
-                          fontSize: 16.sp,
+                          fontSize: 16.0.sp,
                         ),
                   ),
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 24.0.h),
                   
                   // Secondary Metrics
                   Row(
@@ -171,12 +171,12 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 30.0.h),
                   
                   // Control Buttons
                   SizedBox(
                     width: double.infinity,
-                    height: 56.h,
+                    height: 56.0.h,
                     child: ElevatedButton(
                       onPressed: () {
                         if (state == TrackingState.active) {
@@ -187,7 +187,7 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF3498DB),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.w)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0.w)),
                         elevation: 0,
                       ),
                       child: Row(
@@ -195,12 +195,12 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
                         children: [
                           Icon(
                             state == TrackingState.active ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                            size: 24.w,
+                            size: 24.0.w,
                           ),
-                          SizedBox(width: 8.w),
+                          SizedBox(width: 8.0.w),
                           Text(
                             state == TrackingState.active ? 'Pause' : 'Resume',
-                            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -246,13 +246,13 @@ class _MetricItem extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: AppColors.primaryGreen, size: 24.w),
-            SizedBox(width: 8.w),
+            Icon(icon, color: AppColors.primaryGreen, size: 24.0.w),
+            SizedBox(width: 8.0.w),
             Text(
               value,
               style: TextStyle(
                 fontWeight: FontWeight.w900,
-                fontSize: 18.sp,
+                fontSize: 18.0.sp,
                 color: AppColors.textPrimaryLight,
               ),
             ),
@@ -260,7 +260,7 @@ class _MetricItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(color: Colors.grey[500], fontSize: 13.sp),
+          style: TextStyle(color: Colors.grey[500], fontSize: 13.0.sp),
         ),
       ],
     );

@@ -18,16 +18,16 @@ class FoodLogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12.h),
-      padding: EdgeInsets.all(12.w),
+      margin: EdgeInsets.only(bottom: 12.0.h),
+      padding: EdgeInsets.all(12.0.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20.w),
+        borderRadius: BorderRadius.circular(20.0.w),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10.w,
-            offset: Offset(0, 4.h),
+            blurRadius: 10.0.w,
+            offset: Offset(0, 4.0.h),
           ),
         ],
       ),
@@ -35,11 +35,11 @@ class FoodLogItem extends StatelessWidget {
         children: [
           // Food Image
           Container(
-            width: 50.w,
-            height: 50.w,
+            width: 50.0.w,
+            height: 50.0.w,
             decoration: BoxDecoration(
               color: AppColors.activityGrey.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(12.w),
+              borderRadius: BorderRadius.circular(12.0.w),
               image: meal.imageUrl != null
                   ? DecorationImage(
                       image: NetworkImage(meal.imageUrl!),
@@ -48,10 +48,10 @@ class FoodLogItem extends StatelessWidget {
                   : null,
             ),
             child: meal.imageUrl == null
-                ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 24.w)
+                ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 24.0.w)
                 : null,
           ),
-          SizedBox(width: 12.w),
+          SizedBox(width: 12.0.w),
           // Name and Gram Selector
           Expanded(
             child: Column(
@@ -61,19 +61,19 @@ class FoodLogItem extends StatelessWidget {
                   meal.name,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 15.sp,
+                    fontSize: 15.0.sp,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 6.h),
+                SizedBox(height: 6.0.h),
                 GestureDetector(
                   onTap: onEdit,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                    padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 4.0.h),
                     decoration: BoxDecoration(
                       color: AppColors.activityGrey.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8.w),
+                      borderRadius: BorderRadius.circular(8.0.w),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -83,13 +83,13 @@ class FoodLogItem extends StatelessWidget {
                           style: TextStyle(
                             color: AppColors.activityBlue,
                             fontWeight: FontWeight.w600,
-                            fontSize: 13.sp,
+                            fontSize: 13.0.sp,
                           ),
                         ),
-                        SizedBox(width: 4.w),
+                        SizedBox(width: 4.0.w),
                         Icon(
                           Icons.edit_rounded,
-                          size: 14.w,
+                          size: 14.0.w,
                           color: AppColors.activityBlue,
                         ),
                       ],
@@ -108,16 +108,16 @@ class FoodLogItem extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.activityBlue,
                   fontWeight: FontWeight.bold,
-                  fontSize: 15.sp,
+                  fontSize: 15.0.sp,
                 ),
               ),
-              SizedBox(height: 6.h),
+              SizedBox(height: 6.0.h),
               GestureDetector(
                 onTap: onDelete,
                 child: Icon(
                   Icons.delete_outline_rounded,
                   color: AppColors.accentRed,
-                  size: 20.w,
+                  size: 20.0.w,
                 ),
               ),
             ],

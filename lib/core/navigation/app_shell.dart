@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_size/responsive_size.dart';
 import '../../features/activity/activity_screen.dart';
 import '../../features/nutrition/nutrition_screen.dart';
 import '../../features/profile/profile_screen.dart';
 import '../../features/calories/calories_screen.dart';
 import '../../features/settings/settings_screen.dart';
+import '../widgets/custom_bottom_nav_bar.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -36,42 +36,11 @@ class _AppShellState extends State<AppShell> {
           child: _screens[_currentIndex],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _currentIndex,
+        onSelected: (index) {
           setState(() => _currentIndex = index);
         },
-        backgroundColor: Colors.white,
-        elevation: 10,
-        height: 70.h,
-        indicatorColor: Colors.transparent,
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.pets_rounded, color: Colors.grey, size: 24.w),
-            selectedIcon: Icon(Icons.pets_rounded, color: const Color(0xFF4B9EF3), size: 24.w),
-            label: 'Activities',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.restaurant_rounded, color: Colors.grey, size: 24.w),
-            selectedIcon: Icon(Icons.restaurant_rounded, color: const Color(0xFF3498DB), size: 24.w),
-            label: 'Meals',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.local_fire_department_rounded, color: Colors.grey, size: 24.w),
-            selectedIcon: Icon(Icons.local_fire_department_rounded, color: const Color(0xFF3498DB), size: 24.w),
-            label: 'Calories',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.assignment_ind_rounded, color: Colors.grey, size: 24.w),
-            selectedIcon: Icon(Icons.assignment_ind_rounded, color: const Color(0xFF3498DB), size: 24.w),
-            label: 'You',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_rounded, color: Colors.grey, size: 24.w),
-            selectedIcon: Icon(Icons.settings_rounded, color: const Color(0xFF3498DB), size: 24.w),
-            label: 'Settings',
-          ),
-        ],
       ),
     );
   }

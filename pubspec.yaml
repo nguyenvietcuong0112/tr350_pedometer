@@ -24,6 +24,7 @@ dependencies:
   confetti: ^0.8.0
   google_maps_flutter: ^2.10.0
   responsive_size: ^0.0.7
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -32,3 +33,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/

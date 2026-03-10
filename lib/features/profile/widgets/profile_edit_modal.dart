@@ -26,9 +26,15 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
     super.initState();
     _gender = widget.profile.gender;
     _nameController = TextEditingController(text: widget.profile.name);
-    _heightController = TextEditingController(text: widget.profile.height.toInt().toString());
-    _weightController = TextEditingController(text: widget.profile.weight.toInt().toString());
-    _goalController = TextEditingController(text: widget.profile.targetWeight.toInt().toString());
+    _heightController = TextEditingController(
+      text: widget.profile.height.toInt().toString(),
+    );
+    _weightController = TextEditingController(
+      text: widget.profile.weight.toInt().toString(),
+    );
+    _goalController = TextEditingController(
+      text: widget.profile.targetWeight.toInt().toString(),
+    );
   }
 
   @override
@@ -46,124 +52,135 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24.w),
-          topRight: Radius.circular(24.w),
+          topLeft: Radius.circular(24.0.w),
+          topRight: Radius.circular(24.0.w),
         ),
       ),
       padding: EdgeInsets.only(
-        top: 12.h,
-        left: 20.w,
-        right: 20.w,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20.h,
+        top: 12.0.h,
+        left: 20.0.w,
+        right: 20.0.w,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 20.0.h,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Drag Handle
-          Center(
-            child: Container(
-              width: 40.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2.w),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Drag Handle
+            Center(
+              child: Container(
+                width: 40.0.w,
+                height: 4.0.h,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2.0.w),
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 32.h),
+            SizedBox(height: 32.0.h),
 
-          // Gender Selection
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _GenderOption(
-                gender: 'female',
-                isSelected: _gender == 'female',
-                onTap: () => setState(() => _gender = 'female'),
-              ),
-              const SizedBox(width: 40),
-              _GenderOption(
-                gender: 'male',
-                isSelected: _gender == 'male',
-                onTap: () => setState(() => _gender = 'male'),
-              ),
-            ],
-          ),
-          SizedBox(height: 32.h),
-
-          // Name
-          _buildFieldLabel('Name'),
-          _buildTextField(_nameController, 'Your name'),
-          SizedBox(height: 20.h),
-
-          // Height
-          _buildFieldLabel('Your Height'),
-          _buildNumericField(_heightController, 'Cm'),
-          SizedBox(height: 20.h),
-
-          // Weight
-          _buildFieldLabel('Your Weight'),
-          _buildNumericField(_weightController, 'Kg'),
-          SizedBox(height: 20.h),
-
-          // Weight Goal
-          _buildFieldLabel('Your Weight Goal'),
-          _buildNumericField(_goalController, 'Kg'),
-          SizedBox(height: 24.h),
-
-          // Info Text
-          Text(
-            'Pedometer needs to provide information so that it can uses cientific principles to calculate the distance and calories burned when you runs.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 12.sp,
-              fontStyle: FontStyle.italic,
+            // Gender Selection
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _GenderOption(
+                  gender: 'female',
+                  isSelected: _gender == 'female',
+                  onTap: () => setState(() => _gender = 'female'),
+                ),
+                const SizedBox(width: 40),
+                _GenderOption(
+                  gender: 'male',
+                  isSelected: _gender == 'male',
+                  onTap: () => setState(() => _gender = 'male'),
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 24.h),
+            SizedBox(height: 32.0.h),
 
-          // Save Button
-          ElevatedButton(
-            onPressed: () async {
-              final updated = widget.profile.copyWith(
-                name: _nameController.text,
-                gender: _gender,
-                height: double.tryParse(_heightController.text) ?? widget.profile.height,
-                weight: double.tryParse(_weightController.text) ?? widget.profile.weight,
-                targetWeight: double.tryParse(_goalController.text) ?? widget.profile.targetWeight,
-              );
-              await ref.read(profileProvider.notifier).updateProfile(updated);
-              if (context.mounted) Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.activityBlue,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16.h),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.w),
+            // Name
+            _buildFieldLabel('Name'),
+            _buildTextField(_nameController, 'Your name'),
+            SizedBox(height: 20.0.h),
+
+            // Height
+            _buildFieldLabel('Your Height'),
+            _buildNumericField(_heightController, 'Cm'),
+            SizedBox(height: 20.0.h),
+
+            // Weight
+            _buildFieldLabel('Your Weight'),
+            _buildNumericField(_weightController, 'Kg'),
+            SizedBox(height: 20.0.h),
+
+            // Weight Goal
+            _buildFieldLabel('Your Weight Goal'),
+            _buildNumericField(_goalController, 'Kg'),
+            SizedBox(height: 24.0.h),
+
+            // Info Text
+            Text(
+              'Pedometer needs to provide information so that it can uses cientific principles to calculate the distance and calories burned when you runs.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 12.0.sp,
+                fontStyle: FontStyle.italic,
               ),
-              elevation: 0,
             ),
-            child: Text(
-              'Save',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            SizedBox(height: 24.0.h),
+
+            // Save Button
+            ElevatedButton(
+              onPressed: () async {
+                final updated = widget.profile.copyWith(
+                  name: _nameController.text,
+                  gender: _gender,
+                  height:
+                      double.tryParse(_heightController.text) ??
+                      widget.profile.height,
+                  weight:
+                      double.tryParse(_weightController.text) ??
+                      widget.profile.weight,
+                  targetWeight:
+                      double.tryParse(_goalController.text) ??
+                      widget.profile.targetWeight,
+                );
+                await ref.read(profileProvider.notifier).updateProfile(updated);
+                if (context.mounted) Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.activityBlue,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0.w),
+                ),
+                elevation: 0,
+              ),
+              child: Text(
+                'Save',
+                style: TextStyle(
+                  fontSize: 18.0.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFieldLabel(String label) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
+      padding: EdgeInsets.only(bottom: 8.0.h),
       child: Text(
         label,
         style: TextStyle(
           color: const Color(0xFF2C3E50),
-          fontSize: 14.sp,
+          fontSize: 14.0.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -174,7 +191,7 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFF8F9FB),
-        borderRadius: BorderRadius.circular(8.w),
+        borderRadius: BorderRadius.circular(8.0.w),
       ),
       child: TextField(
         controller: controller,
@@ -182,7 +199,10 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.grey),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16.0.w,
+            vertical: 14.0.h,
+          ),
         ),
       ),
     );
@@ -192,7 +212,7 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFF8F9FB),
-        borderRadius: BorderRadius.circular(8.w),
+        borderRadius: BorderRadius.circular(8.0.w),
       ),
       child: Row(
         children: [
@@ -202,13 +222,16 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.0.w,
+                  vertical: 14.0.h,
+                ),
               ),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0.sp),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 12.w),
+            padding: EdgeInsets.only(right: 12.0.w),
             child: Row(
               children: [
                 Text(
@@ -216,11 +239,11 @@ class _ProfileEditModalState extends ConsumerState<ProfileEditModal> {
                   style: TextStyle(
                     color: const Color(0xFF2C3E50),
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
+                    fontSize: 14.0.sp,
                   ),
                 ),
-                SizedBox(width: 4.w),
-                Icon(Icons.arrow_drop_down, color: Colors.orange, size: 24.w),
+                SizedBox(width: 4.0.w),
+                Icon(Icons.arrow_drop_down, color: Colors.orange, size: 24.0.w),
               ],
             ),
           ),
@@ -251,44 +274,46 @@ class _GenderOption extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 70.w,
-            height: 70.w,
+            width: 70.0.w,
+            height: 70.0.w,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
                 color: isSelected ? AppColors.activityBlue : Colors.grey[200]!,
-                width: 2.w,
+                width: 2.0.w,
               ),
             ),
             child: Center(
               child: Icon(
                 icon,
                 color: isSelected ? color : Colors.grey[300],
-                size: 32.w,
+                size: 32.0.w,
               ),
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 8.0.h),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.0.w, vertical: 6.0.h),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.activityBlue : const Color(0xFFF8F9FB),
-              borderRadius: BorderRadius.circular(4.w),
+              color: isSelected
+                  ? AppColors.activityBlue
+                  : const Color(0xFFF8F9FB),
+              borderRadius: BorderRadius.circular(4.0.w),
             ),
             child: Row(
               children: [
                 Icon(
                   icon,
-                  size: 14.w,
+                  size: 14.0.w,
                   color: isSelected ? Colors.white : Colors.black,
                 ),
-                SizedBox(width: 4.w),
+                SizedBox(width: 4.0.w),
                 Text(
                   gender == 'female' ? 'Female' : 'Male',
                   style: TextStyle(
                     color: isSelected ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
+                    fontSize: 12.0.sp,
                   ),
                 ),
               ],

@@ -7,12 +7,8 @@ import 'core/navigation/app_shell.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ResponsiveSize.init(designWidth: 390, designHeight: 844);
-  runApp(
-    const ProviderScope(
-      child: FitLifeApp(),
-    ),
-  );
+  ResponsiveSize.init(designWidth: 390.0, designHeight: 844.0);
+  runApp(const ProviderScope(child: FitLifeApp()));
 }
 
 class FitLifeApp extends ConsumerWidget {

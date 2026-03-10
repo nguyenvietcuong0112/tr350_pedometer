@@ -13,20 +13,10 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+  // Removed manual TabController to use DefaultTabController instead.
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  // Lifecycle methods for manual TabController removed.
 
   double _calculateBMI(double weight, double heightCm) {
     if (heightCm <= 0) return 0;
@@ -35,13 +25,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTicker
   }
 
   String _getBMICategory(double bmi) {
-    if (bmi < 16) return 'Gầy độ III';
-    if (bmi < 17) return 'Gầy độ II';
-    if (bmi < 18.5) return 'Gầy độ I';
-    if (bmi < 23) return 'Bình thường';
-    if (bmi < 25) return 'Thừa cân';
-    if (bmi < 30) return 'Béo phì độ I';
-    return 'Béo phì độ II';
+    if (bmi < 16) return 'Underweight (Severe)';
+    if (bmi < 17) return 'Underweight (Moderate)';
+    if (bmi < 18.5) return 'Underweight (Mild)';
+    if (bmi < 23) return 'Normal';
+    if (bmi < 25) return 'Overweight';
+    if (bmi < 30) return 'Obese (Class I)';
+    return 'Obese (Class II)';
   }
 
   @override
@@ -59,14 +49,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTicker
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: 20.sp,
+            fontSize: 20.0.sp,
           ),
         ),
       ),
-      body: profileAsync.when(
-        data: (profile) => _buildContent(profile),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+      body: DefaultTabController(
+        length: 2,
+        child: profileAsync.when(
+          data: (profile) => _buildContent(profile),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) => Center(child: Text('Error: $err')),
+        ),
       ),
     );
   }
@@ -76,76 +69,60 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> with SingleTicker
     final category = _getBMICategory(bmi);
 
     return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
       children: [
         // Profile Card
         _ProfileHeaderCard(profile: profile),
-        SizedBox(height: 20.h),
+        SizedBox(height: 20.0.h),
 
         // BMI Card
         _BMICard(bmi: bmi.round(), category: category),
-        SizedBox(height: 32.h),
+        SizedBox(height: 32.0.h),
 
         // Goal Section
         Text(
           'Goal',
           style: TextStyle(
-            fontSize: 18.sp,
+            fontSize: 18.0.sp,
             fontWeight: FontWeight.bold,
             color: const Color(0xFF2C3E50),
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 16.0.h),
 
         // Custom Tab Bar
         Container(
-          height: 50.h,
+          height: 25.0.h,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12.w),
-            border: Border.all(color: const Color(0xFFF0F0F0), width: 1.h),
+            borderRadius: BorderRadius.circular(12.0.w),
+            border: Border.all(color: const Color(0xFFF0F0F0), width: 1.0.h),
           ),
-          child: TabBar(
-            controller: _tabController,
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.w),
-              color: AppColors.activityBlue,
+          child: Material(
+            color: Colors.transparent,
+            child: TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              dividerColor: Colors.transparent,
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: AppColors.activityBlue,
+              ),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.grey,
+              tabs: [
+                Tab(text: 'Steps', icon: Icon(Icons.pets_rounded, size: 18.0)),
+                Tab(
+                  text: 'Calories In',
+                  icon: Icon(Icons.local_fire_department_rounded, size: 18.0),
+                ),
+              ],
             ),
-            labelColor: Colors.white,
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.pets_rounded, size: 18.w),
-                    SizedBox(width: 8.w),
-                    Text('Steps', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp)),
-                  ],
-                ),
-              ),
-              Tab(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.local_fire_department_rounded, size: 18.w),
-                    SizedBox(width: 8.w),
-                    Text('Calories In', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp)),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 16.0.h),
 
         // Weekly List (Hardcoded to match image for now)
-        _WeeklyGoalList(
-          isSteps: true,
-          goalValue: profile.stepGoal.toString(),
-        ),
+        _WeeklyGoalList(isSteps: true, goalValue: profile.stepGoal.toString()),
       ],
     );
   }
@@ -159,27 +136,29 @@ class _ProfileHeaderCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(20.0.w),
       decoration: BoxDecoration(
         color: const Color(0xFFF8F9FB),
-        borderRadius: BorderRadius.circular(24.w),
+        borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Row(
         children: [
           // Avatar
           Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.all(12.0.w),
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
             child: Icon(
-              profile.gender == 'male' ? Icons.male_rounded : Icons.female_rounded,
+              profile.gender == 'male'
+                  ? Icons.male_rounded
+                  : Icons.female_rounded,
               color: AppColors.activityBlue,
-              size: 32.w,
+              size: 32.0.w,
             ),
           ),
-          SizedBox(width: 16.w),
+          SizedBox(width: 16.0.w),
           // Info Info
           Expanded(
             child: Column(
@@ -188,19 +167,19 @@ class _ProfileHeaderCard extends ConsumerWidget {
                 Text(
                   profile.name,
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 14.0.sp,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF7F8C8D),
                     letterSpacing: 0.5.w,
                   ),
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: 4.0.h),
                 Row(
                   children: [
                     Text(
                       '${profile.age} ',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.0.sp,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF2C3E50),
                       ),
@@ -208,7 +187,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
                     Text(
                       'yrs  ',
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14.0.sp,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
                       ),
@@ -216,7 +195,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
                     Text(
                       '${profile.height.toInt()} ',
                       style: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 18.0.sp,
                         fontWeight: FontWeight.w900,
                         color: const Color(0xFF2C3E50),
                       ),
@@ -224,7 +203,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
                     Text(
                       'cm',
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 14.0.sp,
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
                       ),
@@ -238,11 +217,13 @@ class _ProfileHeaderCard extends ConsumerWidget {
                     _StepperButton(
                       icon: Icons.remove,
                       onTap: () {
-                        ref.read(profileProvider.notifier).updateWeight(profile.weight - 1);
+                        ref
+                            .read(profileProvider.notifier)
+                            .updateWeight(profile.weight - 1);
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
                       child: RichText(
                         text: TextSpan(
                           children: [
@@ -250,7 +231,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
                               text: '${profile.weight.toInt()} ',
                               style: TextStyle(
                                 color: AppColors.activityBlue,
-                                fontSize: 20.sp,
+                                fontSize: 20.0.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -258,7 +239,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
                               text: 'Kg',
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 14.sp,
+                                fontSize: 14.0.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -269,7 +250,9 @@ class _ProfileHeaderCard extends ConsumerWidget {
                     _StepperButton(
                       icon: Icons.add,
                       onTap: () {
-                        ref.read(profileProvider.notifier).updateWeight(profile.weight + 1);
+                        ref
+                            .read(profileProvider.notifier)
+                            .updateWeight(profile.weight + 1);
                       },
                     ),
                   ],
@@ -291,7 +274,7 @@ class _ProfileHeaderCard extends ConsumerWidget {
               style: TextStyle(
                 color: AppColors.activityBlue,
                 fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+                fontSize: 16.0.sp,
               ),
             ),
           ),
@@ -312,19 +295,19 @@ class _StepperButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(4.w),
+        padding: EdgeInsets.all(4.0.w),
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 4.w,
-              offset: Offset(0, 2.h),
+              blurRadius: 4.0.w,
+              offset: Offset(0, 2.0.h),
             ),
           ],
         ),
-        child: Icon(icon, color: AppColors.activityBlue, size: 20.w),
+        child: Icon(icon, color: AppColors.activityBlue, size: 20.0.w),
       ),
     );
   }
@@ -339,10 +322,10 @@ class _BMICard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(20.0.w),
       decoration: BoxDecoration(
         color: const Color(0xFF0D1221),
-        borderRadius: BorderRadius.circular(24.w),
+        borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +340,7 @@ class _BMICard extends StatelessWidget {
                     'Your BMI ',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18.sp,
+                      fontSize: 18.0.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -365,37 +348,40 @@ class _BMICard extends StatelessWidget {
                     '$bmi',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 32.sp,
+                      fontSize: 32.0.sp,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                 ],
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.0.w,
+                  vertical: 6.0.h,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1B2E2A),
-                  borderRadius: BorderRadius.circular(20.w),
+                  borderRadius: BorderRadius.circular(20.0.w),
                 ),
                 child: Text(
                   category,
                   style: TextStyle(
                     color: const Color(0xFF2ECC71),
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
+                    fontSize: 14.0.sp,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16.0.h),
           Text(
             'BEST - LOWEST RISK OF DISEASE',
             style: TextStyle(
               color: const Color(0xFF7F8C8D),
-              fontSize: 12.sp,
+              fontSize: 12.0.sp,
               fontWeight: FontWeight.bold,
-              letterSpacing: 1.w,
+              letterSpacing: 1.0.w,
             ),
           ),
         ],
@@ -424,8 +410,8 @@ class _WeeklyGoalList extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24.w),
-        border: Border.all(color: const Color(0xFFF0F0F0), width: 1.h),
+        borderRadius: BorderRadius.circular(24.0.w),
+        border: Border.all(color: const Color(0xFFF0F0F0), width: 1.0.h),
       ),
       child: Column(
         children: days.map((day) {
@@ -433,7 +419,10 @@ class _WeeklyGoalList extends StatelessWidget {
           return Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.0.w,
+                  vertical: 5.0.h,
+                ),
                 child: Row(
                   children: [
                     RichText(
@@ -444,7 +433,7 @@ class _WeeklyGoalList extends StatelessWidget {
                             style: TextStyle(
                               color: AppColors.activityBlue,
                               fontWeight: FontWeight.w900,
-                              fontSize: 18.sp,
+                              fontSize: 18.0.sp,
                             ),
                           ),
                           TextSpan(
@@ -452,7 +441,7 @@ class _WeeklyGoalList extends StatelessWidget {
                             style: TextStyle(
                               color: const Color(0xFF2C3E50),
                               fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
+                              fontSize: 16.0.sp,
                             ),
                           ),
                         ],
@@ -460,25 +449,26 @@ class _WeeklyGoalList extends StatelessWidget {
                     ),
                     const Spacer(),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 10.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.0.w,
+                        vertical: 5.0.h,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFF8F9FA),
-                        borderRadius: BorderRadius.circular(8.w),
+                        borderRadius: BorderRadius.circular(8.0.w),
                       ),
                       child: Text(
                         goalValue,
                         style: TextStyle(
                           color: const Color(0xFF2C3E50),
                           fontWeight: FontWeight.w900,
-                          fontSize: 16.sp,
+                          fontSize: 16.0.sp,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              if (!isLast)
-                const Divider(height: 1, color: Color(0xFFF0F0F0), indent: 20, endIndent: 20),
             ],
           );
         }).toList(),

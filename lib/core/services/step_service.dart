@@ -25,34 +25,40 @@ class StepService {
     final savedRecord = await DatabaseService.getStepRecord(today);
     _currentSteps = savedRecord?.stepCount ?? 0;
 
-    _stepSubscription = ped.Pedometer.stepCountStream.listen(
-      (event) {
-        if (_initialStepCount == 0) {
-          _initialStepCount = event.steps;
-        }
-        final stepsFromSensor = event.steps - _initialStepCount;
-        if (stepsFromSensor > 0) {
-          _currentSteps = (_currentSteps > stepsFromSensor)
-              ? _currentSteps
-              : stepsFromSensor;
-        }
-        _stepController.add(_currentSteps);
-        _saveSteps();
-      },
-      onError: (error) {
-        _stepController.addError(error);
-      },
-    );
+    try {
+      _stepSubscription = ped.Pedometer.stepCountStream.listen(
+        (event) {
+          if (_initialStepCount == 0) {
+            _initialStepCount = event.steps;
+          }
+          final stepsFromSensor = event.steps - _initialStepCount;
+          if (stepsFromSensor > 0) {
+            _currentSteps = (_currentSteps > stepsFromSensor)
+                ? _currentSteps
+                : stepsFromSensor;
+          }
+          _stepController.add(_currentSteps);
+          _saveSteps();
+        },
+        onError: (error) {
+          _stepController.addError(error);
+        },
+      );
 
-    _statusSubscription = ped.Pedometer.pedestrianStatusStream.listen(
-      (event) {
-        _pedestrianStatus = event.status;
-        _statusController.add(_pedestrianStatus);
-      },
-      onError: (error) {
-        _statusController.addError(error);
-      },
-    );
+      _statusSubscription = ped.Pedometer.pedestrianStatusStream.listen(
+        (event) {
+          _pedestrianStatus = event.status;
+          _statusController.add(_pedestrianStatus);
+        },
+        onError: (error) {
+          _statusController.addError(error);
+        },
+      );
+    } catch (e) {
+      print('Pedometer sensors not available: $e');
+      _stepController.addError('Sensors not available');
+      _statusController.add('unknown');
+    }
   }
 
   Future<void> _saveSteps() async {

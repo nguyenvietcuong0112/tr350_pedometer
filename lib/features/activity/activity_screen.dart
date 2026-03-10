@@ -46,7 +46,7 @@ class ActivityScreen extends ConsumerWidget {
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w900,
-            fontSize: 22.sp,
+            fontSize: 22.0.sp,
           ),
         ),
         centerTitle: true,
@@ -67,7 +67,7 @@ class ActivityScreen extends ConsumerWidget {
           
           Expanded(
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: 24.h),
+              padding: EdgeInsets.only(bottom: 24.0.h),
               child: Column(
                 children: [
                   StepsProgressCard(
@@ -96,24 +96,24 @@ class ActivityScreen extends ConsumerWidget {
                   ),
                   
                   const SizedBox(height: 16),
-                  SizedBox(height: 16.h),
-                  
+                  SizedBox(height: 16.0.h),
+
                   activitiesAsync.when(
                     data: (activities) {
                       if (activities.isEmpty) return const SizedBox.shrink();
                       return Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20.w),
-                        padding: EdgeInsets.all(8.w),
+                        margin: EdgeInsets.symmetric(horizontal: 20.0.w),
+                        padding: EdgeInsets.all(8.0.w),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20.w),
-                          border: Border.all(color: const Color(0xFFF5F5F5), width: 1.h),
+                          borderRadius: BorderRadius.circular(20.0.w),
+                          border: Border.all(color: const Color(0xFFF5F5F5), width: 1.0.h),
                         ),
                         child: ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: activities.length,
-                          separatorBuilder: (context, index) => Divider(height: 1.h, color: const Color(0xFFF5F5F5)),
+                          separatorBuilder: (context, index) => Divider(height: 1.0.h, color: const Color(0xFFF5F5F5)),
                           itemBuilder: (context, index) => ActivityLogTile(activity: activities[index]),
                         ),
                       );
@@ -167,7 +167,7 @@ class _DateNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 12.0.h),
       color: const Color(0xFFF7F8FA),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,7 +179,7 @@ class _DateNavigator extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: 16.sp,
+              fontSize: 16.0.sp,
               fontWeight: FontWeight.bold,
               color: const Color(0xFF2C5282),
             ),
@@ -204,13 +204,13 @@ class _NavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: AppColors.activityBlue,
-      borderRadius: BorderRadius.circular(6.w),
+      borderRadius: BorderRadius.circular(6.0.w),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(6.w),
+        borderRadius: BorderRadius.circular(6.0.w),
         child: Padding(
-          padding: EdgeInsets.all(4.w),
-          child: Icon(icon, color: Colors.white, size: 24.w),
+          padding: EdgeInsets.all(4.0.w),
+          child: Icon(icon, color: Colors.white, size: 24.0.w),
         ),
       ),
     );

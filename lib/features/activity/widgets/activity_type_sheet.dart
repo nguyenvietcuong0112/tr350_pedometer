@@ -18,30 +18,30 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.w),
+      padding: EdgeInsets.all(24.0.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30.w)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30.0.w)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           // Drag handle
           Container(
-            width: 40.w,
-            height: 4.h,
+            width: 40.0.w,
+            height: 4.0.h,
             decoration: BoxDecoration(
               color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(2.w),
+              borderRadius: BorderRadius.circular(2.0.w),
             ),
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 24.0.h),
           // Grid
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
-            mainAxisSpacing: 16.h,
-            crossAxisSpacing: 16.w,
+            mainAxisSpacing: 16.0.h,
+            crossAxisSpacing: 16.0.w,
             childAspectRatio: 2.2,
             children: ActivityType.values.map((type) {
               final isSelected = _selectedType == type;
@@ -52,7 +52,7 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
               );
             }).toList(),
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 24.0.h),
           // Start Button
           ElevatedButton(
             onPressed: () {
@@ -62,25 +62,25 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF3498DB),
               foregroundColor: Colors.white,
-              minimumSize: Size(double.infinity, 56.h),
+              minimumSize: Size(double.infinity, 56.0.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.w),
+                borderRadius: BorderRadius.circular(16.0.w),
               ),
               elevation: 0,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.play_arrow_rounded, size: 28.w),
-                SizedBox(width: 8.w),
+                Icon(Icons.play_arrow_rounded, size: 28.0.w),
+                SizedBox(width: 8.0.w),
                 Text(
                   'Start',
-                  style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 8.0.h),
         ],
       ),
     );
@@ -124,32 +124,32 @@ class _TypeButton extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12.w),
+      borderRadius: BorderRadius.circular(12.0.w),
       child: Container(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.all(12.0.w),
         decoration: BoxDecoration(
           color: isSelected ? Colors.transparent : Colors.grey[100],
-          borderRadius: BorderRadius.circular(12.w),
+          borderRadius: BorderRadius.circular(12.0.w),
           border: isSelected
-              ? Border.all(color: AppColors.accentOrange, width: 2.w)
-              : Border.all(color: Colors.transparent, width: 2.w),
+              ? Border.all(color: AppColors.accentOrange, width: 2.0.w)
+              : Border.all(color: Colors.transparent, width: 2.0.w),
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(6.w),
+              padding: EdgeInsets.all(6.0.w),
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 24.w),
+              child: Icon(icon, color: color, size: 24.0.w),
             ),
-            SizedBox(width: 10.w),
+            SizedBox(width: 10.0.w),
             Text(
               type.displayName,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
+                fontSize: 14.0.sp,
                 color: isSelected ? AppColors.textPrimaryLight : Colors.grey[600],
               ),
             ),

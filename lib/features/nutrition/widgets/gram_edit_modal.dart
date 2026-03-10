@@ -45,10 +45,10 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, MediaQuery.of(context).viewInsets.bottom + 24.h),
+      padding: EdgeInsets.fromLTRB(24.0.w, 24.0.h, 24.0.w, MediaQuery.of(context).viewInsets.bottom + 24.0.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32.w)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(32.0.w)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -57,25 +57,25 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
           // Drag Handle
           Center(
             child: Container(
-              width: 40.w,
-              height: 4.h,
+              width: 40.0.w,
+              height: 4.0.h,
               decoration: BoxDecoration(
                 color: Colors.grey.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(2.w),
+                borderRadius: BorderRadius.circular(2.0.w),
               ),
             ),
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 24.0.h),
           
           // Header
           Row(
             children: [
               Container(
-                width: 60.w,
-                height: 60.w,
+                width: 60.0.w,
+                height: 60.0.w,
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F6FA),
-                  borderRadius: BorderRadius.circular(16.w),
+                  borderRadius: BorderRadius.circular(16.0.w),
                   image: widget.meal.imageUrl != null
                       ? DecorationImage(
                           image: NetworkImage(widget.meal.imageUrl!),
@@ -84,10 +84,10 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
                       : null,
                 ),
                 child: widget.meal.imageUrl == null
-                    ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 28.w)
+                    ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 28.0.w)
                     : null,
               ),
-              SizedBox(width: 16.w),
+              SizedBox(width: 16.0.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,14 +96,14 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
                       widget.meal.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
-                        fontSize: 20.sp,
+                        fontSize: 20.0.sp,
                       ),
                     ),
                     Text(
                       'Edit Gram / Update Food',
                       style: TextStyle(
                         color: Colors.grey.withValues(alpha: 0.8),
-                        fontSize: 14.sp,
+                        fontSize: 14.0.sp,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -112,44 +112,44 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
               ),
             ],
           ),
-          SizedBox(height: 32.h),
+          SizedBox(height: 32.0.h),
           
           // Weight Input
           Text(
             'Weight (grams)',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 16.sp,
+              fontSize: 16.0.sp,
               color: Colors.black87,
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 12.0.h),
           TextField(
             controller: _controller,
             keyboardType: TextInputType.number,
             autofocus: true,
             onChanged: _updateCalories,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0.sp),
             decoration: InputDecoration(
               suffixText: 'g',
-              suffixStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              suffixStyle: TextStyle(fontSize: 16.0.sp, fontWeight: FontWeight.bold),
               filled: true,
               fillColor: const Color(0xFFF5F6FA),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.w),
+                borderRadius: BorderRadius.circular(16.0.w),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
             ),
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 24.0.h),
           
           // Calories Recap
           Container(
-            padding: EdgeInsets.all(16.w),
+            padding: EdgeInsets.all(16.0.w),
             decoration: BoxDecoration(
               color: AppColors.activityBlue.withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(16.w),
+              borderRadius: BorderRadius.circular(16.0.w),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,7 +158,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
                   'Total Calories',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
+                    fontSize: 14.0.sp,
                     color: Colors.black54,
                   ),
                 ),
@@ -166,14 +166,14 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
                   '$_calculatedCalories kcal',
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
-                    fontSize: 18.sp,
+                    fontSize: 18.0.sp,
                     color: AppColors.activityBlue,
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 32.h),
+          SizedBox(height: 32.0.h),
           
           // Update Button
           ElevatedButton(
@@ -181,9 +181,9 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.activityBlue,
               foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 16.h),
+              padding: EdgeInsets.symmetric(vertical: 16.0.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.w),
+                borderRadius: BorderRadius.circular(16.0.w),
               ),
               elevation: 0,
             ),
@@ -191,7 +191,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
               'Update Food',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+                fontSize: 16.0.sp,
               ),
             ),
           ),
