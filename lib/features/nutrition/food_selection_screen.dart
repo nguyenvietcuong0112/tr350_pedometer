@@ -101,7 +101,9 @@ class _FoodSelectionScreenState extends ConsumerState<FoodSelectionScreen> {
                       borderRadius: BorderRadius.circular(8),
                       image: food.imageUrl != null
                           ? DecorationImage(
-                              image: NetworkImage(food.imageUrl!),
+                              image: food.imageUrl!.startsWith('assets/')
+                                  ? AssetImage(food.imageUrl!) as ImageProvider
+                                  : NetworkImage(food.imageUrl!),
                               fit: BoxFit.cover,
                             )
                           : null,
