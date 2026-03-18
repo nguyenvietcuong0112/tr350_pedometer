@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_size/responsive_size.dart';
 import '../../core/providers/profile_provider.dart';
 import '../../core/models/user_profile.dart';
-import '../../core/theme/app_colors.dart';
 import 'widgets/profile_edit_modal.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -73,11 +72,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       children: [
         // Profile Card
         _ProfileHeaderCard(profile: profile),
-        SizedBox(height: 20.0.h),
+        SizedBox(height: 10.0.h),
 
         // BMI Card
         _BMICard(bmi: bmi.round(), category: category),
-        SizedBox(height: 32.0.h),
+        SizedBox(height: 10.0.h),
 
         // Goal Section
         Text(
@@ -88,38 +87,64 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             color: const Color(0xFF2C3E50),
           ),
         ),
-        SizedBox(height: 16.0.h),
+        SizedBox(height: 5.0.h),
 
         // Custom Tab Bar
         Container(
-          height: 25.0.h,
+          padding: EdgeInsets.all(4.0.w),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.0.w),
-            border: Border.all(color: const Color(0xFFF0F0F0), width: 1.0.h),
+            color: const Color(0xFFF1F5F9), // Light grey-blue background
+            borderRadius: BorderRadius.circular(16.0.w),
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              dividerColor: Colors.transparent,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: AppColors.activityBlue,
-              ),
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey,
-              tabs: [
-                Tab(text: 'Steps', icon: Icon(Icons.pets_rounded, size: 18.0)),
-                Tab(
-                  text: 'Calories In',
-                  icon: Icon(Icons.local_fire_department_rounded, size: 18.0),
+          child: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0.w),
+              color: const Color(0xFF3B82F6), // Blue
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
+            labelColor: Colors.white,
+            labelStyle: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 15.0.sp,
+            ),
+            unselectedLabelColor: const Color(0xFF94A3B8),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 15.0.sp,
+            ),
+            tabs: [
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.pets_rounded, size: 18.0.sp),
+                    SizedBox(width: 8.0.w),
+                    const Text('Steps'),
+                  ],
+                ),
+              ),
+              Tab(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.local_fire_department_rounded, size: 18.0.sp),
+                    SizedBox(width: 8.0.w),
+                    const Text('Calories In'),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        SizedBox(height: 16.0.h),
+        SizedBox(height: 10.0.h),
 
         // Weekly List (Hardcoded to match image for now)
         _WeeklyGoalList(isSteps: true, goalValue: profile.stepGoal.toString()),
@@ -138,80 +163,92 @@ class _ProfileHeaderCard extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.all(20.0.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FB),
+        color: const Color(0xFFF5F7FA), // Light grey background
         borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Avatar
           Container(
             padding: EdgeInsets.all(12.0.w),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(24.0.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Icon(
               profile.gender == 'male'
                   ? Icons.male_rounded
                   : Icons.female_rounded,
-              color: AppColors.activityBlue,
+              color: const Color(0xFF3B82F6),
               size: 32.0.w,
             ),
           ),
-          SizedBox(width: 16.0.w),
-          // Info Info
+          SizedBox(width: 20.0.w),
+          // Info Column
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  profile.name,
-                  style: TextStyle(
-                    fontSize: 14.0.sp,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF7F8C8D),
-                    letterSpacing: 0.5.w,
-                  ),
-                ),
-                SizedBox(height: 4.0.h),
+                // Top Row: Name, Age, Height
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: [
+                    Text(
+                      profile.name.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 14.0.sp,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF64748B),
+                        letterSpacing: 0.5.w,
+                      ),
+                    ),
+                    const Spacer(),
                     Text(
                       '${profile.age} ',
                       style: TextStyle(
-                        fontSize: 18.0.sp,
+                        fontSize: 16.0.sp,
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFF2C3E50),
+                        color: const Color(0xFF0F172A),
                       ),
                     ),
                     Text(
                       'yrs  ',
                       style: TextStyle(
-                        fontSize: 14.0.sp,
-                        color: Colors.grey,
+                        fontSize: 13.0.sp,
+                        color: const Color(0xFF94A3B8),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       '${profile.height.toInt()} ',
                       style: TextStyle(
-                        fontSize: 18.0.sp,
+                        fontSize: 16.0.sp,
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xFF2C3E50),
+                        color: const Color(0xFF0F172A),
                       ),
                     ),
                     Text(
                       'cm',
                       style: TextStyle(
-                        fontSize: 14.0.sp,
-                        color: Colors.grey,
+                        fontSize: 13.0.sp,
+                        color: const Color(0xFF94A3B8),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                // Weight Stepper
+                SizedBox(height: 12.0.h),
+                // Bottom Row: Weight Stepper and Edit
                 Row(
                   children: [
                     _StepperButton(
@@ -223,22 +260,22 @@ class _ProfileHeaderCard extends ConsumerWidget {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                       child: RichText(
                         text: TextSpan(
                           children: [
                             TextSpan(
                               text: '${profile.weight.toInt()} ',
                               style: TextStyle(
-                                color: AppColors.activityBlue,
-                                fontSize: 20.0.sp,
+                                color: const Color(0xFF3B82F6),
+                                fontSize: 24.0.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
                             TextSpan(
                               text: 'Kg',
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: const Color(0xFF94A3B8),
                                 fontSize: 14.0.sp,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -255,27 +292,34 @@ class _ProfileHeaderCard extends ConsumerWidget {
                             .updateWeight(profile.weight + 1);
                       },
                     ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) =>
+                              ProfileEditModal(profile: profile),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: const Color(0xFF3B82F6),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16.0.sp,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => ProfileEditModal(profile: profile),
-              );
-            },
-            child: Text(
-              'Edit',
-              style: TextStyle(
-                color: AppColors.activityBlue,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0.sp,
-              ),
             ),
           ),
         ],
@@ -295,19 +339,20 @@ class _StepperButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(4.0.w),
+        padding: EdgeInsets.all(6.0.w),
         decoration: BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
+          border: Border.all(color: const Color(0xFFE2E8F0)), // Subtle border
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 4.0.w,
               offset: Offset(0, 2.0.h),
             ),
           ],
         ),
-        child: Icon(icon, color: AppColors.activityBlue, size: 20.0.w),
+        child: Icon(icon, color: const Color(0xFF3B82F6), size: 18.0.w),
       ),
     );
   }
@@ -322,9 +367,9 @@ class _BMICard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.0.w),
+      padding: EdgeInsets.all(24.0.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D1221),
+        color: const Color(0xFF0F172A), // Dark Navy
         borderRadius: BorderRadius.circular(24.0.w),
       ),
       child: Column(
@@ -334,21 +379,22 @@ class _BMICard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
                 children: [
                   Text(
                     'Your BMI ',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0.sp,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   Text(
-                    '$bmi',
+                    ' $bmi',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 32.0.sp,
+                      fontSize: 36.0.sp,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
@@ -356,31 +402,34 @@ class _BMICard extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 12.0.w,
-                  vertical: 6.0.h,
+                  horizontal: 16.0.w,
+                  vertical: 8.0.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF1B2E2A),
+                  color: const Color(0xFF064E3B), // Dark green
                   borderRadius: BorderRadius.circular(20.0.w),
+                  border: Border.all(
+                    color: const Color(0xFF065F46).withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Text(
                   category,
                   style: TextStyle(
-                    color: const Color(0xFF2ECC71),
-                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF34D399), // Emerald
+                    fontWeight: FontWeight.w900,
                     fontSize: 14.0.sp,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16.0.h),
+          SizedBox(height: 10.0.h),
           Text(
             'BEST - LOWEST RISK OF DISEASE',
             style: TextStyle(
-              color: const Color(0xFF7F8C8D),
+              color: const Color(0xFF64748B),
               fontSize: 12.0.sp,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
               letterSpacing: 1.0.w,
             ),
           ),
@@ -408,68 +457,61 @@ class _WeeklyGoalList extends StatelessWidget {
     ];
 
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 5.0.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24.0.w),
-        border: Border.all(color: const Color(0xFFF0F0F0), width: 1.0.h),
+        border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5.w),
       ),
       child: Column(
         children: days.map((day) {
-          final isLast = days.last == day;
-          return Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.0.w,
-                  vertical: 5.0.h,
-                ),
-                child: Row(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: day['short'] as String,
-                            style: TextStyle(
-                              color: AppColors.activityBlue,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 18.0.sp,
-                            ),
-                          ),
-                          TextSpan(
-                            text: day['day']!.substring(1),
-                            style: TextStyle(
-                              color: const Color(0xFF2C3E50),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24.0.w,
-                        vertical: 5.0.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF8F9FA),
-                        borderRadius: BorderRadius.circular(8.0.w),
-                      ),
-                      child: Text(
-                        goalValue,
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 8.0.h),
+            child: Row(
+              children: [
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: (day['day'] as String)[0],
                         style: TextStyle(
-                          color: const Color(0xFF2C3E50),
+                          color: const Color(0xFF3B82F6),
                           fontWeight: FontWeight.w900,
-                          fontSize: 16.0.sp,
+                          fontSize: 18.0.sp,
                         ),
                       ),
-                    ),
-                  ],
+                      TextSpan(
+                        text: (day['day'] as String).substring(1),
+                        style: TextStyle(
+                          color: const Color(0xFF0F172A),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18.0.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                const Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.0.w,
+                    vertical: 5.0.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(10.0.w),
+                  ),
+                  child: Text(
+                    goalValue,
+                    style: TextStyle(
+                      color: const Color(0xFF0F172A),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16.0.sp,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         }).toList(),
       ),

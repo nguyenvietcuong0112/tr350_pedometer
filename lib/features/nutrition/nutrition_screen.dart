@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../core/providers/nutrition_provider.dart';
 import '../../core/services/food_service.dart';
-import '../../core/theme/app_colors.dart';
 import 'widgets/food_log_item.dart';
 import 'food_selection_screen.dart';
 import 'widgets/gram_edit_modal.dart';
@@ -24,7 +23,7 @@ class NutritionScreen extends ConsumerWidget {
     final isOverGoal = remaining < 0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -33,7 +32,7 @@ class NutritionScreen extends ConsumerWidget {
           'Meals',
           style: TextStyle(
             color: Colors.black,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900,
             fontSize: 18.0.sp,
           ),
         ),
@@ -43,31 +42,42 @@ class NutritionScreen extends ConsumerWidget {
           // Date Navigator
           Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(vertical: 8.0.h),
+            padding: EdgeInsets.symmetric(vertical: 12.0.h, horizontal: 20.0.w),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _DateButton(icon: Icons.chevron_left_rounded, onTap: () {}),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-                  child: Text(
-                    'Today',
-                    style: TextStyle(
-                      color: AppColors.activityBlue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0.sp,
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: _DateButton(
+                      icon: Icons.chevron_left_rounded,
+                      onTap: () {},
                     ),
                   ),
                 ),
-                _DateButton(icon: Icons.chevron_right_rounded, onTap: () {}),
+                Text(
+                  'Today',
+                  style: TextStyle(
+                    color: const Color(0xFF2C3E50),
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18.0.sp,
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: _DateButton(
+                      icon: Icons.chevron_right_rounded,
+                      onTap: () {},
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEEEEEE)),
 
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(16.0.w),
+              padding: EdgeInsets.all(20.0.w),
               children: [
                 // Calories Summary Card
                 _CaloriesSummaryCard(
@@ -76,11 +86,11 @@ class NutritionScreen extends ConsumerWidget {
                   remaining: remaining,
                   isOverGoal: isOverGoal,
                 ),
-                SizedBox(height: 24.0.h),
+                SizedBox(height: 20.0.h),
 
                 // Meal Tabs
                 const _MealTabSelector(),
-                SizedBox(height: 16.0.h),
+                SizedBox(height: 24.0.h),
 
                 // Content Area (Empty or List)
                 if (meals.isEmpty)
@@ -110,12 +120,12 @@ class _DateButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(4.0.w),
+        padding: EdgeInsets.all(8.0.w),
         decoration: BoxDecoration(
-          color: AppColors.activityBlue,
-          borderRadius: BorderRadius.circular(4.0.w),
+          color: const Color(0xFF15A9FA),
+          borderRadius: BorderRadius.circular(6.0.w),
         ),
-        child: Icon(icon, color: Colors.white, size: 20.0.w),
+        child: Icon(icon, color: Colors.white, size: 24.0.w),
       ),
     );
   }
@@ -141,87 +151,111 @@ class _CaloriesSummaryCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24.0.w),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24.0.w),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20.0.w,
-            offset: Offset(0, 10.0.h),
-          ),
-        ],
+        color: const Color(0xFFF5F9FC), // Very light blue/grey
+        borderRadius: BorderRadius.circular(28.0.w),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Consumed',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 14.0.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: 8.0.h),
+          // Labels Row
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Consumed',
+                style: TextStyle(
+                  color: const Color(0xFF64748B),
+                  fontSize: 16.0.sp,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              Text(
+                'Goal: ${NumberFormat('#,###').format(goal)}',
+                style: TextStyle(
+                  color: const Color(0xFF64748B),
+                  fontSize: 14.0.sp,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4.0.h),
+          // Values Row
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
               Text(
                 NumberFormat('#,###').format(consumed),
                 style: TextStyle(
-                  color: AppColors.activityBlue,
-                  fontSize: 36.0.sp,
+                  color: const Color(0xFF15A9FA),
+                  fontSize: 48.0.sp,
                   fontWeight: FontWeight.w900,
+                  letterSpacing: -1.0,
                 ),
               ),
               SizedBox(width: 8.0.w),
-              Padding(
-                padding: EdgeInsets.only(bottom: 6.0.h),
-                child: Text(
-                  'kcal',
-                  style: TextStyle(
-                    color: AppColors.activityBlue,
-                    fontSize: 18.0.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Text(
+                'kcal',
+                style: TextStyle(
+                  color: const Color(0xFF15A9FA),
+                  fontSize: 20.0.sp,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Goal: ${NumberFormat('#,###').format(goal)}',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 12.0.sp,
-                      fontWeight: FontWeight.w600,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${NumberFormat('#,###').format(remaining.abs())} ',
+                      style: TextStyle(
+                        color: isOverGoal
+                            ? const Color(0xFFEF4444)
+                            : const Color(0xFFF59E0B),
+                        fontSize: 20.0.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4.0.h),
-                  Text(
-                    '${NumberFormat('#,###').format(remaining.abs())} ${isOverGoal ? 'over' : 'left'}',
-                    style: TextStyle(
-                      color: isOverGoal ? AppColors.accentRed : AppColors.activityOrange,
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.bold,
+                    TextSpan(
+                      text: isOverGoal ? 'over' : 'left',
+                      style: TextStyle(
+                        color: isOverGoal
+                            ? const Color(0xFFEF4444)
+                            : const Color(0xFFF59E0B),
+                        fontSize: 14.0.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
-          SizedBox(height: 20.0.h),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0.w),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 12.0.h,
-              backgroundColor: const Color(0xFFF0F0F0),
-              valueColor: AlwaysStoppedAnimation<Color>(
-                isOverGoal ? AppColors.accentRed : AppColors.activityBlue,
+          SizedBox(height: 12.0.h),
+          Stack(
+            children: [
+              Container(
+                height: 12.0.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD1D5DB).withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(10.0.w),
+                ),
               ),
-            ),
+              FractionallySizedBox(
+                widthFactor: progress,
+                child: Container(
+                  height: 12.0.h,
+                  decoration: BoxDecoration(
+                    color: isOverGoal
+                        ? const Color(0xFFEF4444)
+                        : const Color(0xFF15A9FA),
+                    borderRadius: BorderRadius.circular(10.0.w),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -236,27 +270,50 @@ class _MealTabSelector extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedType = ref.watch(selectedMealTypeProvider);
     final tabs = [
-      {'type': 'Breakfast', 'icon': Icons.wb_sunny_outlined},
-      {'type': 'Lunch', 'icon': Icons.light_mode_rounded},
-      {'type': 'Dinner', 'icon': Icons.dark_mode_outlined},
-      {'type': 'Snack', 'icon': Icons.apple_rounded},
+      {
+        'type': 'Breakfast',
+        'icon': Icons.wb_sunny_rounded,
+        'color': const Color(0xFFFF9F0A),
+      },
+      {
+        'type': 'Lunch',
+        'icon': Icons.wb_sunny_outlined,
+        'color': const Color(0xFF007AFF),
+      },
+      {
+        'type': 'Dinner',
+        'icon': Icons.nightlight_round,
+        'color': const Color(0xFF5856D6),
+      },
+      {
+        'type': 'Other',
+        'icon': Icons.shopping_bag_rounded,
+        'color': const Color(0xFFFF3B30),
+      },
     ];
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1.5),
+        ),
+      ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: tabs.map((tab) {
           final isSelected = tab['type'] == selectedType;
           return GestureDetector(
-            onTap: () => ref.read(selectedMealTypeProvider.notifier).state = tab['type'] as String,
+            onTap: () => ref.read(selectedMealTypeProvider.notifier).state =
+                tab['type'] as String,
             child: Container(
-              margin: EdgeInsets.only(right: 16.0.w),
-              padding: EdgeInsets.only(bottom: 8.0.h),
+              padding: EdgeInsets.only(bottom: 12.0.h),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: isSelected ? AppColors.activityBlue : Colors.transparent,
-                    width: 2.0.h,
+                    color: isSelected
+                        ? const Color(0xFF15A9FA)
+                        : Colors.transparent,
+                    width: 2.5.h,
                   ),
                 ),
               ),
@@ -265,15 +322,17 @@ class _MealTabSelector extends ConsumerWidget {
                   Icon(
                     tab['icon'] as IconData,
                     size: 20.0.w,
-                    color: isSelected ? AppColors.activityBlue : Colors.grey,
+                    color: tab['color'] as Color,
                   ),
                   SizedBox(width: 6.0.w),
                   Text(
                     tab['type'] as String,
                     style: TextStyle(
-                      color: isSelected ? AppColors.activityBlue : Colors.grey,
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                      fontSize: 14.0.sp,
+                      color: isSelected
+                          ? const Color(0xFF15A9FA)
+                          : const Color(0xFF94A3B8),
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16.0.sp,
                     ),
                   ),
                 ],
@@ -298,30 +357,51 @@ class _EmptyState extends StatelessWidget {
           children: [
             _AddFoodButton(onTap: () => _openFoodSelection(context)),
             const Spacer(),
-            Text(
-              'Calories consumed: 0 kCal',
-              style: TextStyle(color: Colors.grey, fontSize: 13.0.sp),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Calories consumed',
+                  style: TextStyle(
+                    color: const Color(0xFF64748B),
+                    fontSize: 15.0.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 4.0.h),
+                Text(
+                  '0 kCal',
+                  style: TextStyle(
+                    color: const Color(0xFF0F172A),
+                    fontSize: 24.0.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-        SizedBox(height: 40.0.h),
-        Icon(Icons.fastfood_rounded, size: 100.0.w, color: Colors.grey.withValues(alpha: 0.2)),
-        SizedBox(height: 16.0.h),
-        Text(
-          'Please include it in your meal.',
-          style: TextStyle(color: Colors.grey, fontSize: 15.0.sp),
+        SizedBox(height: 48.0.h),
+        // Illustration placeholder - ideally an asset image
+        Opacity(
+          opacity: 0.8,
+          child: Image.network(
+            'https://cdni.iconscout.com/illustration/premium/thumb/diet-planning-illustration-download-in-svg-png-gif-formats--nutritionist-meal-plan-food-healthy-health-care-pack-illustrations-3304562.png',
+            height: 200.0.h,
+            errorBuilder: (context, error, stackTrace) => Icon(
+              Icons.restaurant_rounded,
+              size: 120.0.w,
+              color: const Color(0xFFE2E8F0),
+            ),
+          ),
         ),
         SizedBox(height: 24.0.h),
-        ElevatedButton.icon(
-          onPressed: () => _openFoodSelection(context),
-          icon: Icon(Icons.add_rounded, size: 18.0.w),
-          label: Text('Add Food', style: TextStyle(fontSize: 14.0.sp)),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: AppColors.activityBlue,
-            elevation: 0,
-            side: BorderSide(color: AppColors.activityBlue, width: 1.0.h),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0.w)),
+        Text(
+          'Please include it in your meal.',
+          style: TextStyle(
+            color: const Color(0xFF64748B),
+            fontSize: 15.0.sp,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
@@ -348,41 +428,53 @@ class _FilledState extends ConsumerWidget {
       children: [
         Row(
           children: [
-            _AddFoodButton(onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FoodSelectionScreen()),
-              );
-            }),
-            const Spacer(),
-            RichText(
-              text: TextSpan(
-                style: TextStyle(color: Colors.grey, fontSize: 13.0.sp),
-                children: [
-                  const TextSpan(text: 'Calories consumed: '),
-                  TextSpan(
-                    text: '$totalInTab kCal',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.0.sp,
-                    ),
+            _AddFoodButton(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FoodSelectionScreen(),
                   ),
-                ],
-              ),
+                );
+              },
+            ),
+            const Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  'Calories consumed',
+                  style: TextStyle(
+                    color: const Color(0xFF64748B),
+                    fontSize: 15.0.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 4.0.h),
+                Text(
+                  '$totalInTab kCal',
+                  style: TextStyle(
+                    color: const Color(0xFF0F172A),
+                    fontSize: 24.0.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
         SizedBox(height: 16.0.h),
-        ...meals.map((meal) => FoodLogItem(
-              meal: meal,
-              onEdit: () => _showEditModal(context, ref, meal),
-              onDelete: () async {
-                await FoodService.deleteMeal(meal.id);
-                ref.invalidate(todayMealsProvider);
-                ref.invalidate(todayCaloriesConsumedProvider);
-              },
-            )),
+        ...meals.map(
+          (meal) => FoodLogItem(
+            meal: meal,
+            onEdit: () => _showEditModal(context, ref, meal),
+            onDelete: () async {
+              await FoodService.deleteMeal(meal.id);
+              ref.invalidate(todayMealsProvider);
+              ref.invalidate(todayCaloriesConsumedProvider);
+            },
+          ),
+        ),
       ],
     );
   }
@@ -406,22 +498,34 @@ class _AddFoodButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 10.0.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 12.0.h),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24.0.w),
-          border: Border.all(color: AppColors.activityBlue.withValues(alpha: 0.1), width: 1.0.h),
+          borderRadius: BorderRadius.circular(30.0.w),
+          border: Border.all(color: const Color(0xFFF1F5F9), width: 1.5.w),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.add_rounded, color: AppColors.activityBlue, size: 20.0.w),
-            SizedBox(width: 4.0.w),
+            Icon(
+              Icons.add_rounded,
+              color: const Color(0xFF15A9FA),
+              size: 24.0.w,
+            ),
+            SizedBox(width: 8.0.w),
             Text(
               'Add Food',
               style: TextStyle(
-                color: AppColors.activityBlue,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.0.sp,
+                color: const Color(0xFF15A9FA),
+                fontWeight: FontWeight.w900,
+                fontSize: 18.0.sp,
               ),
             ),
           ],

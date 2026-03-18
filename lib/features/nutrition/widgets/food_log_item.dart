@@ -42,13 +42,19 @@ class FoodLogItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.0.w),
               image: meal.imageUrl != null
                   ? DecorationImage(
-                      image: NetworkImage(meal.imageUrl!),
+                      image: meal.imageUrl!.startsWith('assets/')
+                          ? AssetImage(meal.imageUrl!) as ImageProvider
+                          : NetworkImage(meal.imageUrl!),
                       fit: BoxFit.cover,
                     )
                   : null,
             ),
             child: meal.imageUrl == null
-                ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 24.0.w)
+                ? Icon(
+                    Icons.restaurant_rounded,
+                    color: Colors.grey,
+                    size: 24.0.w,
+                  )
                 : null,
           ),
           SizedBox(width: 12.0.w),
@@ -70,7 +76,10 @@ class FoodLogItem extends StatelessWidget {
                 GestureDetector(
                   onTap: onEdit,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 4.0.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.0.w,
+                      vertical: 4.0.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.activityGrey.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(8.0.w),

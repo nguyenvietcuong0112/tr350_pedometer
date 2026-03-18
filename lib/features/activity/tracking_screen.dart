@@ -22,12 +22,14 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
   GoogleMapController? _mapController;
   MapType _currentMapType = MapType.normal;
   final Set<Polyline> _polylines = {};
-  
+
   @override
   void initState() {
     super.initState();
     // Auto-start tracking when screen opens
-    Future.microtask(() => ref.read(trackingServiceProvider(widget.type)).start());
+    Future.microtask(
+      () => ref.read(trackingServiceProvider(widget.type)).start(),
+    );
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -36,17 +38,22 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
 
   void _toggleMapType() {
     setState(() {
-      _currentMapType = _currentMapType == MapType.normal 
-          ? MapType.satellite 
-          : (_currentMapType == MapType.satellite ? MapType.terrain : MapType.normal);
+      _currentMapType = _currentMapType == MapType.normal
+          ? MapType.satellite
+          : (_currentMapType == MapType.satellite
+                ? MapType.terrain
+                : MapType.normal);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(trackingStateProvider(widget.type)).valueOrNull ?? TrackingState.idle;
+    final state =
+        ref.watch(trackingStateProvider(widget.type)).valueOrNull ??
+        TrackingState.idle;
     final metrics = ref.watch(trackingMetricsProvider(widget.type)).valueOrNull;
-    final route = ref.watch(trackingRouteProvider(widget.type)).valueOrNull ?? [];
+    final route =
+        ref.watch(trackingRouteProvider(widget.type)).valueOrNull ?? [];
 
     // Update polylines
     if (route.isNotEmpty) {
@@ -58,11 +65,13 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
           width: 5,
         ),
       );
-      
+
       // Keep camera centered on last point
       if (_mapController != null) {
         _mapController!.animateCamera(
-          CameraUpdate.newLatLng(LatLng(route.last.latitude, route.last.longitude)),
+          CameraUpdate.newLatLng(
+            LatLng(route.last.latitude, route.last.longitude),
+          ),
         );
       }
     }
@@ -73,7 +82,11 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.close_rounded, color: AppColors.textPrimaryLight, size: 24.0.w),
+          icon: Icon(
+            Icons.close_rounded,
+            color: AppColors.textPrimaryLight,
+            size: 24.0.w,
+          ),
           onPressed: () => _handleStop(context),
         ),
         title: Text(
@@ -101,7 +114,7 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
             zoomControlsEnabled: false,
             polylines: _polylines,
           ),
-          
+
           // Map Type Toggle Button
           Positioned(
             top: 20.0.h,
@@ -109,18 +122,23 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
             child: FloatingActionButton.small(
               onPressed: _toggleMapType,
               backgroundColor: Colors.white,
-              child: const Icon(Icons.layers_rounded, color: AppColors.accentBlue),
+              child: const Icon(
+                Icons.layers_rounded,
+                color: AppColors.accentBlue,
+              ),
             ),
           ),
-          
+
           // Bottom Panel
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.fromLTRB(20.0.w, 24.0.h, 20.0.w, 30.0.h),
+              padding: EdgeInsets.fromLTRB(20.0.w, 12.0.h, 20.0.w, 16.0.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30.0.w)),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24.0.w),
+                ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
@@ -132,80 +150,260 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Primary Metric (Km)
-                  Text(
-                    metrics?.distanceKm.toStringAsFixed(1) ?? '0,0',
-                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimaryLight,
-                          fontSize: 45.0.sp, // Explicit size for responsiveness
+                  // Distance Card
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8FAFC),
+                      borderRadius: BorderRadius.circular(12.0.w),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          metrics?.distanceKm.toStringAsFixed(1) ?? '0.0',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: const Color(0xFF1E293B),
+                            fontSize: 32.0.sp,
+                          ),
                         ),
-                  ),
-                  Text(
-                    'Km',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey[600],
-                          fontSize: 16.0.sp,
+                        SizedBox(width: 8.0.w),
+                        Text(
+                          'Km',
+                          style: TextStyle(
+                            color: const Color(0xFF64748B),
+                            fontSize: 16.0.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 24.0.h),
-                  
-                  // Secondary Metrics
+                  SizedBox(height: 5.0.h),
+
+                  // Secondary Metrics Cards
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _MetricItem(
-                        icon: Icons.directions_walk_rounded,
-                        label: 'Steps',
-                        value: '${metrics?.steps ?? 0}',
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF8FAFC),
+                            borderRadius: BorderRadius.circular(12.0.w),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.access_time_filled_rounded,
+                                color: const Color(0xFF0369A1),
+                                size: 24.0.w,
+                              ),
+                              SizedBox(width: 10.0.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    metrics?.formattedTime ?? '00:00:00',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 16.0.sp,
+                                      color: const Color(0xFF1E293B),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Min',
+                                    style: TextStyle(
+                                      color: const Color(0xFF64748B),
+                                      fontSize: 13.0.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      _MetricItem(
-                        icon: Icons.access_time_filled_rounded,
-                        label: 'Min',
-                        value: metrics?.formattedTime ?? '00:00:00',
-                      ),
-                      _MetricItem(
-                        icon: Icons.local_fire_department_rounded,
-                        label: 'Kcal',
-                        value: '${metrics?.calories.toInt() ?? 0}',
+                      SizedBox(width: 12.0.w),
+                      Expanded(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF8FAFC),
+                            borderRadius: BorderRadius.circular(12.0.w),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.local_fire_department_rounded,
+                                color: const Color(0xFFF97316),
+                                size: 24.0.w,
+                              ),
+                              SizedBox(width: 10.0.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${metrics?.calories.toInt() ?? 0}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 16.0.sp,
+                                      color: const Color(0xFF1E293B),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Kcal',
+                                    style: TextStyle(
+                                      color: const Color(0xFF64748B),
+                                      fontSize: 13.0.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 30.0.h),
-                  
+                  SizedBox(height: 16.0.h),
                   // Control Buttons
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56.0.h,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (state == TrackingState.active) {
-                          ref.read(trackingServiceProvider(widget.type)).pause();
-                        } else {
-                          ref.read(trackingServiceProvider(widget.type)).resume();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF3498DB),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0.w)),
-                        elevation: 0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            state == TrackingState.active ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                            size: 24.0.w,
+                  if (state == TrackingState.active)
+                    SizedBox(
+                      width: double.infinity,
+                      height: 20.0.h,
+                      child: ElevatedButton(
+                        onPressed: () => ref
+                            .read(trackingServiceProvider(widget.type))
+                            .pause(),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: const Color(0xFF15A9FA),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0.w),
                           ),
-                          SizedBox(width: 8.0.w),
-                          Text(
-                            state == TrackingState.active ? 'Pause' : 'Resume',
-                            style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                          elevation: 0,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(2.0.w),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.pause_rounded,
+                                size: 14.0.w,
+                                color: const Color(0xFF15A9FA),
+                              ),
+                            ),
+                            SizedBox(width: 8.0.w),
+                            Text(
+                              'Pause',
+                              style: TextStyle(
+                                fontSize: 13.0.sp,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
+                    )
+                  else
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 20.0.h,
+                            child: ElevatedButton(
+                              onPressed: () => ref
+                                  .read(trackingServiceProvider(widget.type))
+                                  .resume(),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: const Color(0xFF15A9FA),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0.w),
+                                ),
+                                elevation: 0,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(2.0.w),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Icon(
+                                      Icons.play_arrow_rounded,
+                                      size: 14.0.w,
+                                      color: const Color(0xFF15A9FA),
+                                    ),
+                                  ),
+                                  SizedBox(width: 6.0.w),
+                                  Text(
+                                    'Pause',
+                                    style: TextStyle(
+                                      fontSize: 13.0.sp,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 16.0.w),
+                        Expanded(
+                          child: SizedBox(
+                            height: 20.0.h,
+                            child: OutlinedButton(
+                              onPressed: () => _handleStop(context),
+                              style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                side: const BorderSide(
+                                  color: Color(0xFF15A9FA),
+                                  width: 1.5,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0.w),
+                                ),
+                                foregroundColor: const Color(0xFF15A9FA),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.flag_rounded,
+                                    size: 16.0.w,
+                                    color: const Color(0xFFF97316),
+                                  ),
+                                  SizedBox(width: 6.0.w),
+                                  Text(
+                                    'Finish',
+                                    style: TextStyle(
+                                      fontSize: 13.0.sp,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               ),
             ),
@@ -225,44 +423,5 @@ class _TrackingScreenState extends ConsumerState<TrackingScreen> {
     if (context.mounted) {
       Navigator.pop(context);
     }
-  }
-}
-
-class _MetricItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const _MetricItem({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: AppColors.primaryGreen, size: 24.0.w),
-            SizedBox(width: 8.0.w),
-            Text(
-              value,
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 18.0.sp,
-                color: AppColors.textPrimaryLight,
-              ),
-            ),
-          ],
-        ),
-        Text(
-          label,
-          style: TextStyle(color: Colors.grey[500], fontSize: 13.0.sp),
-        ),
-      ],
-    );
   }
 }

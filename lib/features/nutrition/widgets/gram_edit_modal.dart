@@ -26,26 +26,36 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
     super.initState();
     _currentWeight = widget.meal.weightGrams;
     _calculatedCalories = widget.meal.calories;
-    _controller = TextEditingController(text: _currentWeight.toInt().toString());
-    
+    _controller = TextEditingController(
+      text: _currentWeight.toInt().toString(),
+    );
+
     // Find source food to get caloriesPer100g
-    _sourceFood = MockFoodDatabase.foods.where((f) => f.name == widget.meal.name).firstOrNull;
+    _sourceFood = MockFoodDatabase.foods
+        .where((f) => f.name == widget.meal.name)
+        .firstOrNull;
   }
 
   void _updateCalories(String value) {
     if (_sourceFood == null) return;
-    
+
     final newWeight = double.tryParse(value) ?? 0;
     setState(() {
       _currentWeight = newWeight;
-      _calculatedCalories = ((_sourceFood!.caloriesPer100g / 100) * newWeight).round();
+      _calculatedCalories = ((_sourceFood!.caloriesPer100g / 100) * newWeight)
+          .round();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0.w, 24.0.h, 24.0.w, MediaQuery.of(context).viewInsets.bottom + 24.0.h),
+      padding: EdgeInsets.fromLTRB(
+        24.0.w,
+        24.0.h,
+        24.0.w,
+        MediaQuery.of(context).viewInsets.bottom + 24.0.h,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(32.0.w)),
@@ -66,7 +76,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             ),
           ),
           SizedBox(height: 24.0.h),
-          
+
           // Header
           Row(
             children: [
@@ -78,13 +88,20 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
                   borderRadius: BorderRadius.circular(16.0.w),
                   image: widget.meal.imageUrl != null
                       ? DecorationImage(
-                          image: NetworkImage(widget.meal.imageUrl!),
+                          image: widget.meal.imageUrl!.startsWith('assets/')
+                              ? AssetImage(widget.meal.imageUrl!)
+                                    as ImageProvider
+                              : NetworkImage(widget.meal.imageUrl!),
                           fit: BoxFit.cover,
                         )
                       : null,
                 ),
                 child: widget.meal.imageUrl == null
-                    ? Icon(Icons.restaurant_rounded, color: Colors.grey, size: 28.0.w)
+                    ? Icon(
+                        Icons.restaurant_rounded,
+                        color: Colors.grey,
+                        size: 28.0.w,
+                      )
                     : null,
               ),
               SizedBox(width: 16.0.w),
@@ -113,7 +130,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             ],
           ),
           SizedBox(height: 32.0.h),
-          
+
           // Weight Input
           Text(
             'Weight (grams)',
@@ -132,18 +149,24 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0.sp),
             decoration: InputDecoration(
               suffixText: 'g',
-              suffixStyle: TextStyle(fontSize: 16.0.sp, fontWeight: FontWeight.bold),
+              suffixStyle: TextStyle(
+                fontSize: 16.0.sp,
+                fontWeight: FontWeight.bold,
+              ),
               filled: true,
               fillColor: const Color(0xFFF5F6FA),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0.w),
                 borderSide: BorderSide.none,
               ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.0.w,
+                vertical: 16.0.h,
+              ),
             ),
           ),
           SizedBox(height: 24.0.h),
-          
+
           // Calories Recap
           Container(
             padding: EdgeInsets.all(16.0.w),
@@ -174,7 +197,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             ),
           ),
           SizedBox(height: 32.0.h),
-          
+
           // Update Button
           ElevatedButton(
             onPressed: _updateMeal,
@@ -189,10 +212,7 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
             ),
             child: Text(
               'Update Food',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0.sp,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0.sp),
             ),
           ),
         ],
@@ -204,11 +224,15 @@ class _GramEditModalState extends ConsumerState<GramEditModal> {
     final weight = double.tryParse(_controller.text) ?? 0;
     if (weight <= 0) return;
 
-    await FoodService.updateMealWeight(widget.meal.id, weight, _sourceFood?.caloriesPer100g ?? 0);
-    
+    await FoodService.updateMealWeight(
+      widget.meal.id,
+      weight,
+      _sourceFood?.caloriesPer100g ?? 0,
+    );
+
     ref.invalidate(todayMealsProvider);
     ref.invalidate(todayCaloriesConsumedProvider);
-    
+
     if (mounted) Navigator.pop(context);
   }
 }

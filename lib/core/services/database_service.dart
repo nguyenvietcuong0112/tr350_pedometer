@@ -31,7 +31,7 @@ class DatabaseService {
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL DEFAULT 'ALEX JOHNSON',
+        name TEXT NOT NULL DEFAULT 'Name',
         age INTEGER NOT NULL DEFAULT 26,
         height REAL NOT NULL DEFAULT 170.0,
         weight REAL NOT NULL DEFAULT 70.0,

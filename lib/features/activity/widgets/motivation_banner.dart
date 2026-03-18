@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_size/responsive_size.dart';
-import '../../../core/theme/app_colors.dart';
 
 class MotivationBanner extends StatelessWidget {
   final int remainingCalories;
@@ -15,46 +14,45 @@ class MotivationBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(20.0.w, 16.0.h, 20.0.w, 8.0.h),
+      padding: EdgeInsets.fromLTRB(20.0.w, 8.0.h, 20.0.w, 16.0.h),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Medal Icon (using Emoji/Icon for simplicity, could be Image)
           Container(
             padding: EdgeInsets.all(8.0.w),
             decoration: BoxDecoration(
-              color: AppColors.accentOrange.withValues(alpha: 0.1),
+              color: const Color(0xFFFF9800).withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Text('🥇', style: TextStyle(fontSize: 24.0.sp)),
+            child: Text('🥇', style: TextStyle(fontSize: 22.0.sp)),
           ),
           SizedBox(width: 12.0.w),
           Expanded(
             child: RichText(
               text: TextSpan(
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: isDark ? Colors.white70 : AppColors.textSecondaryLight,
-                      height: 1.4,
-                      fontSize: 14.0.sp,
-                    ),
+                style: TextStyle(
+                  color: isDark ? Colors.white70 : const Color(0xFF64748B),
+                  height: 1.5,
+                  fontSize: 14.0.sp,
+                  fontWeight: FontWeight.w500,
+                ),
                 children: [
                   const TextSpan(text: 'You have '),
                   TextSpan(
                     text: '$remainingCalories',
-                    style: TextStyle(
-                      color: AppColors.accentBlue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.0.sp,
+                    style: const TextStyle(
+                      color: Color(0xFF15A9FA),
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const TextSpan(text: ' calories left to reach your '),
                   TextSpan(
                     text: '$goalCalories',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.0.sp,
+                      color: isDark ? Colors.white : const Color(0xFF0F172A),
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const TextSpan(text: ' calorie goal for today, keep going!'),

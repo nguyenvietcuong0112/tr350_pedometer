@@ -15,7 +15,7 @@ class CaloriesScreen extends ConsumerWidget {
     final consumed = dashboardData.caloriesConsumed;
     final active = dashboardData.caloriesBurned;
     final goal = ref.watch(calorieGoalProvider);
-    
+
     // Assuming BMR of 1600 for visualization matching the image (Total = Active + BMR)
     const bmr = 1600;
     final totalBurned = active + bmr;
@@ -23,9 +23,15 @@ class CaloriesScreen extends ConsumerWidget {
     final isDeficit = net < 0;
 
     // Intake percentage vs goal (for subtext)
-    final intakeVsGoal = goal > 0 ? ((consumed - goal) / goal * 100).round() : 0;
-    final intakeLabel = intakeVsGoal >= 0 ? '+$intakeVsGoal% vs Goal' : '$intakeVsGoal% vs Goal';
-    final intakeColor = intakeVsGoal > 0 ? AppColors.accentRed : AppColors.primaryGreen;
+    final intakeVsGoal = goal > 0
+        ? ((consumed - goal) / goal * 100).round()
+        : 0;
+    final intakeLabel = intakeVsGoal >= 0
+        ? '+$intakeVsGoal% vs Goal'
+        : '$intakeVsGoal% vs Goal';
+    final intakeColor = intakeVsGoal > 0
+        ? AppColors.accentRed
+        : AppColors.primaryGreen;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,32 +52,32 @@ class CaloriesScreen extends ConsumerWidget {
         children: [
           // Date Navigator
           Container(
-            padding: EdgeInsets.symmetric(vertical: 12.0.h),
+            padding: EdgeInsets.symmetric(vertical: 12.0.h, horizontal: 20.0.w),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: const Color(0xFFF0F0F0), width: 1.0.h),
+                bottom: BorderSide(
+                  color: const Color(0xFFF0F0F0),
+                  width: 1.0.h,
+                ),
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _DateNavButton(icon: Icons.chevron_left_rounded, onTap: () {}),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0.w),
-                  child: Text(
-                    'Today',
-                    style: TextStyle(
-                      color: AppColors.activityBlue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0.sp,
-                    ),
+                Text(
+                  'Today',
+                  style: TextStyle(
+                    color: AppColors.activityBlue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0.sp,
                   ),
                 ),
                 _DateNavButton(icon: Icons.chevron_right_rounded, onTap: () {}),
               ],
             ),
           ),
-          
+
           Expanded(
             child: ListView(
               padding: EdgeInsets.all(20.0.w),
@@ -105,18 +111,16 @@ class CaloriesScreen extends ConsumerWidget {
                   ],
                 ),
                 SizedBox(height: 20.0.h),
-                
+
                 // Surplus/Deficit Dark Card
-                _NetCalorieCard(
-                  netValue: net.toInt(),
-                  isDeficit: isDeficit,
-                ),
+                _NetCalorieCard(netValue: net.toInt(), isDeficit: isDeficit),
                 SizedBox(height: 24.0.h),
-                
+
                 // Walking Burned Info Card
                 _InfoCard(
                   icon: Icons.local_fire_department_rounded,
-                  text: 'THE NUMBER OF CALORIES BURNED BY WALKING WAS ${active.toInt()} kcal',
+                  title: 'The number of calories burned by walking was',
+                  value: active.toInt().toString(),
                 ),
               ],
             ),
@@ -175,7 +179,9 @@ class _SummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(24.0.w),
-        border: Border.all(color: AppColors.activityBlue.withValues(alpha: 0.05)),
+        border: Border.all(
+          color: AppColors.activityBlue.withValues(alpha: 0.05),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,10 +246,7 @@ class _NetCalorieCard extends StatelessWidget {
   final int netValue;
   final bool isDeficit;
 
-  const _NetCalorieCard({
-    required this.netValue,
-    required this.isDeficit,
-  });
+  const _NetCalorieCard({required this.netValue, required this.isDeficit});
 
   @override
   Widget build(BuildContext context) {
@@ -319,9 +322,14 @@ class _NetCalorieCard extends StatelessWidget {
 
 class _InfoCard extends StatelessWidget {
   final IconData icon;
-  final String text;
+  final String title;
+  final String value;
 
-  const _InfoCard({required this.icon, required this.text});
+  const _InfoCard({
+    required this.icon,
+    required this.title,
+    required this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -334,23 +342,66 @@ class _InfoCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(12.0.w),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.all(16.0.w),
+            decoration: BoxDecoration(
               color: Colors.white,
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(24.0.w),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.02),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            child: Icon(icon, color: AppColors.activityOrange, size: 24.0.w),
+            child: Icon(
+              icon,
+              color: const Color(0xFFF97316),
+              size: 28.0.w,
+            ), // Vivid orange
           ),
           SizedBox(width: 20.0.w),
           Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: const Color(0xFF7F8C8D),
-                fontSize: 13.0.sp,
-                fontWeight: FontWeight.bold,
-                height: 1.4.h,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: const Color(0xFF475569), // Deeper slate grey
+                    fontSize: 14.0.sp,
+                    fontWeight: FontWeight.w900,
+                    height: 1.2, // Tighter leading
+                    letterSpacing: 0.5.w,
+                  ),
+                ),
+                SizedBox(height: 6.0.h),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: value,
+                        style: TextStyle(
+                          color: const Color(
+                            0xFF0F172A,
+                          ), // Very dark navy/black
+                          fontSize: 28.0.sp,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ' kcal',
+                        style: TextStyle(
+                          color: const Color(0xFF94A3B8), // Slate grey for unit
+                          fontSize: 20.0.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],

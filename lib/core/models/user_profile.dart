@@ -11,7 +11,7 @@ class UserProfile {
 
   const UserProfile({
     this.id,
-    this.name = 'ALEX JOHNSON',
+    this.name = '',
     this.age = 26,
     this.height = 170.0,
     this.weight = 70.0,
@@ -62,7 +62,7 @@ class UserProfile {
   factory UserProfile.fromMap(Map<String, dynamic> map) {
     return UserProfile(
       id: map['id'] as int?,
-      name: map['name'] as String? ?? 'ALEX JOHNSON',
+      name: map['name'] as String? ?? '',
       age: map['age'] as int? ?? 26,
       height: (map['height'] as num).toDouble(),
       weight: (map['weight'] as num).toDouble(),

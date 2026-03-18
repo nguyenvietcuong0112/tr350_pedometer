@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_size/responsive_size.dart';
 import '../../../core/models/activity_record.dart';
-import '../../../core/theme/app_colors.dart';
 
 class ActivityTypeSheet extends StatefulWidget {
   final Function(ActivityType) onStart;
@@ -18,7 +17,7 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(24.0.w),
+      padding: EdgeInsets.all(14.0.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.0.w)),
@@ -29,7 +28,7 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
           // Drag handle
           Container(
             width: 40.0.w,
-            height: 4.0.h,
+            height: 2.0.h,
             decoration: BoxDecoration(
               color: Colors.grey[300],
               borderRadius: BorderRadius.circular(2.0.w),
@@ -40,9 +39,9 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
-            mainAxisSpacing: 16.0.h,
-            crossAxisSpacing: 16.0.w,
-            childAspectRatio: 2.2,
+            mainAxisSpacing: 8.0.h,
+            crossAxisSpacing: 12.0.w,
+            childAspectRatio: 2.4,
             children: ActivityType.values.map((type) {
               final isSelected = _selectedType == type;
               return _TypeButton(
@@ -52,7 +51,7 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
               );
             }).toList(),
           ),
-          SizedBox(height: 24.0.h),
+          SizedBox(height: 10.0.h),
           // Start Button
           ElevatedButton(
             onPressed: () {
@@ -60,9 +59,9 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
               widget.onStart(_selectedType);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF3498DB),
+              backgroundColor: const Color(0xFF15A9FA),
               foregroundColor: Colors.white,
-              minimumSize: Size(double.infinity, 56.0.h),
+              minimumSize: Size(double.infinity, 18.0.h),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0.w),
               ),
@@ -71,11 +70,25 @@ class _ActivityTypeSheetState extends State<ActivityTypeSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.play_arrow_rounded, size: 28.0.w),
-                SizedBox(width: 8.0.w),
+                Container(
+                  padding: EdgeInsets.all(4.0.w),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    size: 20.0.w,
+                    color: const Color(0xFF15A9FA),
+                  ),
+                ),
+                SizedBox(width: 12.0.w),
                 Text(
                   'Start',
-                  style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20.0.sp,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ],
             ),
@@ -101,56 +114,64 @@ class _TypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     IconData icon;
-    Color color;
+    Color circleColor;
 
     switch (type) {
       case ActivityType.walking:
         icon = Icons.directions_walk_rounded;
-        color = const Color(0xFF2ECC71);
+        circleColor = const Color(0xFF4ADE80);
         break;
       case ActivityType.running:
         icon = Icons.directions_run_rounded;
-        color = const Color(0xFF3498DB);
+        circleColor = const Color(0xFF3B82F6);
         break;
       case ActivityType.cycling:
         icon = Icons.directions_bike_rounded;
-        color = const Color(0xFFF39C12);
+        circleColor = const Color(0xFFFBBF24);
         break;
       case ActivityType.trekking:
         icon = Icons.landscape_rounded;
-        color = const Color(0xFFE74C3C);
+        circleColor = const Color(0xFFF87171);
         break;
     }
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12.0.w),
+      borderRadius: BorderRadius.circular(14.0.w),
       child: Container(
-        padding: EdgeInsets.all(12.0.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 4.0.h),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.transparent : Colors.grey[100],
-          borderRadius: BorderRadius.circular(12.0.w),
-          border: isSelected
-              ? Border.all(color: AppColors.accentOrange, width: 2.0.w)
-              : Border.all(color: Colors.transparent, width: 2.0.w),
+          color: const Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.circular(14.0.w),
+          border: Border.all(
+            color: isSelected ? const Color(0xFFF97316) : Colors.transparent,
+            width: 2.5.w,
+          ),
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(6.0.w),
+              width: 38.0.w,
+              height: 38.0.w,
               decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.1),
+                color: circleColor,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: color, size: 24.0.w),
+              child: Center(
+                child: Icon(icon, color: Colors.white, size: 22.0.w),
+              ),
             ),
             SizedBox(width: 10.0.w),
-            Text(
-              type.displayName,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.0.sp,
-                color: isSelected ? AppColors.textPrimaryLight : Colors.grey[600],
+            Expanded(
+              child: Text(
+                type.displayName,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontWeight: isSelected ? FontWeight.w900 : FontWeight.w700,
+                  fontSize: 14.0.sp,
+                  color: const Color(0xFF334155),
+                ),
               ),
             ),
           ],
