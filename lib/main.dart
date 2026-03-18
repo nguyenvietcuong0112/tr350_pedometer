@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_size/responsive_size.dart';
 import 'core/theme/app_theme.dart';
 import 'core/providers/dashboard_provider.dart';
-import 'core/navigation/app_shell.dart';
+import 'features/splash/presentation/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ class FitLifeApp extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: const AppShell(),
+      home: const SplashScreen(),
     );
   }
 }
